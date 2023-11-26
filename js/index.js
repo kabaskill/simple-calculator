@@ -1,70 +1,64 @@
-// Inputs
-let operand1Input = document.querySelector('[data-js="operand1"]');
-let operand2Input = document.querySelector('[data-js="operand2"]');
+import { buttons } from "./buttons.js";
+import { numbers } from "./buttons.js";
 
-const resultBox = document.querySelector('[data-js="result-box"]');
-
-const addButton = document.querySelector('[data-js="add"]');
-const subtractButton = document.querySelector('[data-js="subtract"]');
-const multiplyButton = document.querySelector('[data-js="multiply"]');
-const divideButton = document.querySelector('[data-js="divide"]');
-const exponentButton = document.querySelector('[data-js="exponent"]');
-const moduloButton = document.querySelector('[data-js="modulo"]');
-const sqRootButton = document.querySelector('[data-js="sqroot"]');
-const logButton = document.querySelector('[data-js="log"]');
+// Variables
+const calcScreen = document.querySelector(".screen");
+const calcFunctions = document.querySelector(".calc-functions");
+const calcNumbers = document.querySelector(".calc-numbers");
 
 //LOGIC
+let initScreen = 0;
 
-addButton.addEventListener("click", () => simpleOperations("add"));
-subtractButton.addEventListener("click", () => simpleOperations("sub"));
-multiplyButton.addEventListener("click", () => simpleOperations("mult"));
-divideButton.addEventListener("click", () => simpleOperations("div"));
-
-exponentButton.addEventListener("click", () => simpleOperations("exp"));
-moduloButton.addEventListener("click", () => simpleOperations("mod"));
-sqRootButton.addEventListener("click", () => simpleOperations("sqrt"));
-logButton.addEventListener("click", () => simpleOperations("log"));
+calcScreen.textContent = initScreen;
+createButtonsOnDiv(calcFunctions, buttons);
+createButtonsOnDiv(calcNumbers, numbers);
 
 //FUNCTIONS
 
-function simpleOperations(operator) {
-  x = Number(operand1Input.value);
-  y = Number(operand2Input.value);
+function createButtonsOnDiv(div, buttonsArray) {
+  buttonsArray.forEach(({ symbol, style }) => {
+    const button = document.createElement("button");
+    button.classList.add(...style);
+    button.setAttribute("type", "click");
+    button.innerHTML = symbol;
+    div.append(button);
 
-  let result;
-  switch (operator) {
-    case "add":
-      result = x + y;
+    button.addEventListener("click", () => {
+      // document.getElementById("button-click").play();
+      numberAndResetInput(event);
+    });
+  });
+}
+
+function numberAndResetInput(event) {
+  const target = event.target.textContent;
+  const screen = calcScreen.textContent;
+  const operators = [, , ...buttons];
+  console.log("🚀  operators:", operators);
+
+  switch (target) {
+    case "-/+":
+      initScreen = -initScreen;
       break;
 
-    case "sub":
-      result = x - y;
+    case ".":
+      initScreen = screen.includes(".") ? screen : screen + ".";
       break;
 
-    case "mult":
-      result = x * y;
+    case "←":
+      screen.length > 1 ? (initScreen = screen.slice(0, -1)) : (initScreen = 0);
       break;
 
-    case "div":
-      result = x / y;
+    case "C":
+      initScreen = 0;
       break;
 
-    case "exp":
-      result = x ** y;
-      break;
-
-    case "mod":
-      result = x % y;
-      break;
-
-    case "sqrt":
-      result = `${Math.sqrt(x)} and ${Math.sqrt(y)}`;
-      break;
-
-    case "log":
-      result = Math.log(x) / Math.log(y);
+    default:
+      initScreen = screen === "0" ? target : calcScreen.textContent + target;
       break;
   }
 
-  resultBox.textContent = "Result: " + result;
+  console.log(+initScreen + 1.5);
+
+  calcScreen.textContent = initScreen;
 }

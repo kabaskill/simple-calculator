@@ -5,35 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <title>Simple Calculator</title>
     <link rel="stylesheet" href="./css/styles.css" />
-    <script src="./js/index.js" defer></script>
+    <script src="./js/index.js" type="module"></script>
   </head>
   <body>
     <h1>Simple Calculator</h1>
-    <p>
-      Enter your numbers and click the operator <br />
-      buttons to see the result
-    </p>
 
-    <section class="mathematical-operations">
-      <label for="operand1">Number for x:</label>
-      <input type="text" data-js="operand1" name="operand1" />
+    <section class="calculator">
+      <section class="screen"></section>
+      <section class="calc-functions"></section>
+      <section class="calc-numbers"></section>
 
-      <label for="operand2">Number for y: </label>
-      <input type="text" data-js="operand2" name="operand2" />
-
-      <p data-js="result-box">Result:</p>
-    </section>
-
-    <h2>Operations</h2>
-    <section class="mathematical-operations">
-      <button type="button" class="button" data-js="add">+</button>
-      <button type="button" class="button" data-js="subtract">-</button>
-      <button type="button" class="button" data-js="multiply">x</button>
-      <button type="button" class="button" data-js="divide">/</button>
-      <button type="button" class="button" data-js="exponent">x<sup>y</sup></button>
-      <button type="button" class="button" data-js="modulo">mod</button>
-      <button type="button" class="button" data-js="sqroot">&#8730;x and &#8730;y</button>
-      <button type="button" class="button" data-js="log">log<sub>x</sub> (y)</button>
+      <audio id="button-click">
+        <source src="audio\button-click.mp3" type="audio/mp3" />
+      </audio>
     </section>
   </body>
 </html>
