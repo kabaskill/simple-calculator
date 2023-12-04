@@ -18,8 +18,9 @@ h1 {
 }
 
 .calculator {
-  width: 350px;
-  margin-top: 20px;
+  min-width: 400px;
+  width: fit-content;
+
   background-color: rgb(142, 192, 192);
   padding: 2rem;
   border-radius: 20px;
@@ -48,7 +49,7 @@ h1 {
   padding-inline: 0.75rem;
 
   font-size: 3rem;
-  overflow: auto;
+  overflow: visible;
   border-radius: 10px;
 }
 

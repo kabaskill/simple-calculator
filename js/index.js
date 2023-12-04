@@ -8,15 +8,17 @@ const calcNumbers = document.querySelector(".calc-numbers");
 
 //LOGIC
 let initScreen = 0;
+let buffer = 0;
+let operation = "";
 
-calcScreen.textContent = initScreen;
+calcScreen.textContent = 0;
 createButtonsOnDiv(calcFunctions, buttons);
 createButtonsOnDiv(calcNumbers, numbers);
 
 //FUNCTIONS
 
 function createButtonsOnDiv(div, buttonsArray) {
-  buttonsArray.forEach(({ symbol, style }) => {
+  buttonsArray.forEach(({ name, symbol, style, op }) => {
     const button = document.createElement("button");
     button.classList.add(...style);
     button.setAttribute("type", "click");
@@ -25,7 +27,11 @@ function createButtonsOnDiv(div, buttonsArray) {
 
     button.addEventListener("click", () => {
       // document.getElementById("button-click").play();
-      numberAndResetInput(event);
+      if (!op) {
+        numberAndResetInput(event);
+      } else {
+        mathOperations(name);
+      }
     });
   });
 }
@@ -33,8 +39,6 @@ function createButtonsOnDiv(div, buttonsArray) {
 function numberAndResetInput(event) {
   const target = event.target.textContent;
   const screen = calcScreen.textContent;
-  const operators = [, , ...buttons];
-  console.log("🚀  operators:", operators);
 
   switch (target) {
     case "-/+":
@@ -51,6 +55,7 @@ function numberAndResetInput(event) {
 
     case "C":
       initScreen = 0;
+      buffer = 0;
       break;
 
     default:
@@ -58,7 +63,60 @@ function numberAndResetInput(event) {
       break;
   }
 
-  console.log(+initScreen + 1.5);
+  // console.log(+initScreen + 1.5);
 
   calcScreen.textContent = initScreen;
+}
+
+function mathOperations(name) {
+  console.log("🚀  initScreen:", initScreen);
+  console.log("🚀  buffer:", buffer);
+
+  switch (name) {
+    case "sqrt":
+      calcScreen.textContent = Math.sqrt(+initScreen);
+      initScreen = calcScreen.textContent;
+      break;
+
+    case "square":
+      calcScreen.textContent = +initScreen * initScreen;
+      initScreen = calcScreen.textContent;
+      break;
+
+    case "equals":
+      equalsButton(operation, buffer);
+      break;
+
+    default:
+      buffer = initScreen;
+      calcScreen.textContent = "0";
+      operation = name;
+      break;
+  }
+}
+
+function equalsButton(operation, buffer) {
+  switch (operation) {
+    case "add":
+      calcScreen.textContent = +buffer + +initScreen;
+      console.log("🚀  initScreen EQUAL:", initScreen);
+      console.log("🚀  buffer EQUAL:", buffer);
+      break;
+
+    case "sub":
+      calcScreen.textContent = +buffer - +initScreen;
+      break;
+
+    case "mul":
+      calcScreen.textContent = +buffer * +initScreen;
+      break;
+
+    case "div":
+      calcScreen.textContent = +buffer / +initScreen;
+      break;
+
+    case "exp":
+      calcScreen.textContent = (+buffer) ** +initScreen;
+      break;
+  }
 }
